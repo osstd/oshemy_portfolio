@@ -4,12 +4,17 @@ import GithubIcon from "../../public/svgs/github-icon.svg";
 import LinkedinIcon from "../../public/svgs/linkedin-icon.svg";
 import Link from "next/link";
 import Image from "next/image";
+import Spinner from "./Spinner";
 
 const ContactSection = () => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleEmail = async (e) => {
     e.preventDefault();
+
+    setLoading(true);
+
     const data = {
       email: e.target.email.value,
       subject: e.target.subject.value,
@@ -31,11 +36,14 @@ const ContactSection = () => {
 
       if (response.status === 200) {
         console.log("Email Sent.");
+        setLoading(false);
         setEmailSubmitted(true);
       } else {
+        setLoading(false);
         alert(`Server responded with code: ${response.status}`);
       }
     } catch (error) {
+      setLoading(false);
       alert(error);
     }
   };
@@ -67,7 +75,9 @@ const ContactSection = () => {
         </div>
       </div>
       <div>
-        {emailSubmitted ? (
+        {loading ? (
+          <Spinner />
+        ) : emailSubmitted ? (
           <p className="text-green-500 text-sm mt-2">
             Email sent successfully!
           </p>
