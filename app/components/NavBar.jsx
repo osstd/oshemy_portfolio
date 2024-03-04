@@ -36,8 +36,8 @@ const NavBar = () => {
             src="/images/favicon.png"
             alt="logo image"
             //   className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 rounded-full"
-            width={40}
-            height={40}
+            width={64}
+            height={64}
           />
         </Link>
         <div className="mobile-menu block md:hidden">
