@@ -5,6 +5,7 @@ import ProjectCard from "./ProjectCard";
 import ProjectTag from "./ProjectTag";
 import projectsData from "../projectsData";
 import { motion, useInView } from "framer-motion";
+import parse from "html-react-parser";
 
 const ProjectsSection = () => {
   const [tag, setTag] = useState("All");
@@ -41,8 +42,13 @@ const ProjectsSection = () => {
         />
         <ProjectTag
           onClick={handleTagChange}
-          name="Mobile"
-          isSelected={tag === "Mobile"}
+          name="JS"
+          isSelected={tag === "JS"}
+        />
+        <ProjectTag
+          onClick={handleTagChange}
+          name="Data Analysis"
+          isSelected={tag === "Data Analysis"}
         />
       </div>
       <ul ref={ref} className="grid md:grid-cols-3 gap-8 md:gap-12">
@@ -53,11 +59,12 @@ const ProjectsSection = () => {
             initial="initial"
             animate={isInView ? "animate" : "initial"}
             transition={{ duration: 0.3, delay: index * 0.4 }}
+            className="flex"
           >
             <ProjectCard
               key={project.id}
               title={project.title}
-              description={project.description}
+              description={parse(project.description)}
               imgUrl={project.image}
               gitUrl={project.gitUrl}
               previewUrl={project.previewUrl}

@@ -61,9 +61,10 @@ const ContactSection = () => {
         </h5>
         <p className="text-[#ADB7BE] mb-4 max-w-md">
           {" "}
-          I&apos;m currently looking for new opportunities, my inbox is always
-          open. Whether you have a question or just want to say hi, I&apos;ll
-          try my best to get back to you!
+          I&apos;m currently exploring new opportunities and I&apos;d love to
+          connect! My inbox is always open, so feel free to reach out with
+          questions or just to say hello. I&apos;ll get back to you as soon as
+          possible!
         </p>
         <div className="socials flex flex-row gap-2">
           <Link href="https://www.github.com/osstd">
@@ -139,13 +140,6 @@ const ContactSection = () => {
             >
               Send Message
             </button>
-            {/* {
-              emailSubmitted && (
-                <p className="text-green-500 text-sm mt-2">
-                    Email sent successfully
-                </p>
-              )
-            } */}
           </form>
         )}
       </div>
