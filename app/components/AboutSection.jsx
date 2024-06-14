@@ -99,7 +99,7 @@ const AboutSection = () => {
             contribute to dynamic teams in developing innovative and impactful
             applications.
           </p>
-          <div className="flex flex-row justify-start mt-8">
+          <div className="flex flex-row flex-wrap justify-start mt-8">
             <TabButton
               selectTab={() => handleTabChange("languages")}
               active={tab === "languages"}
