@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
-import { Resend } from "resend";
-
-// declaration for using Resend API
-// const resend = new Resend(process.env.RESEND_API_KEY);
 
 // using nodemailer
 const fromEmail = process.env.FROM_EMAIL;
@@ -34,7 +30,6 @@ export async function POST(req, res) {
   });
 
   await new Promise((resolve, reject) => {
-    // verify connection configuration
     transporter.verify(function (error, success) {
       if (error) {
         console.log(`There is an error here:${error}`);
@@ -49,7 +44,6 @@ export async function POST(req, res) {
 
   try {
     const info = await new Promise((resolve, reject) => {
-      // send mail
       transporter.sendMail(mailMessage, (err, info) => {
         if (err) {
           console.error(err);
@@ -71,27 +65,3 @@ export async function POST(req, res) {
     });
   }
 }
-
-// Block for using Resend API
-// export async function POST(req, res) {
-//   const { email, subject, message } = await req.json();
-//   console.log(email, subject, message);
-//   try {
-//     const data = await resend.emails.send({
-//       from: fromEmail,
-//       to: [fromEmail, 'omar.100.days@gmail.com'],
-//       subject: subject,
-//       react: (
-//         <>
-//           <h1>{subject}</h1>
-//           <p>Thank you for contacting us!</p>
-//           <p>New message submitted:</p>
-//           <p>{message}</p>
-//         </>
-//       ),
-//     });
-//     return NextResponse.json(data);
-//   } catch (error) {
-//     return NextResponse.json({ error });
-//   }
-// }

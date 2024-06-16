@@ -1,3 +1,21 @@
+# Tech Portfolio
+
+I built this portfolio website as a tool to showcase my technical skills and projects, build credibility, facilitate communication and document my ongoing journey in the field of development.
+
+## Features
+
+- View past experience projects and demonstrations
+- Contact email validation and handling
+
+## Technology Used
+
+- **Programming Language:** JavaScript (with JSX)
+- **Frameworks:** Next.js, React
+- **Frontend:** Tailwind CSS
+- **Packages:** Nodemailer
+
+## Official Boilerplate
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

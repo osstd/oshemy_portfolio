@@ -31,11 +31,9 @@ const NavBar = () => {
           href={"/"}
           className="text-2xl md:text-5xl text-white font-semibold"
         >
-          {/* LOGO */}
           <Image
             src="/images/favicon.png"
             alt="logo image"
-            //   className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 rounded-full"
             width={48}
             height={48}
           />
