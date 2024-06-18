@@ -11,13 +11,14 @@ const projectsData = [
   },
   {
     id: 2,
-    title: "Structural Engineering Portfolio Website",
+    title: "The Birthday Wisher",
     description:
-      "I built this multipage web app as a tool to showcase my structural engineering technical skills and projects. <br> Technologies used: Flask, MongoDB, HTML, CSS, JavaScript",
-    image: "/images/projects/2.png",
+      "The wisher sends a simple wish to all your friends on their birthdays. <br> \
+    Technologies used: Flask, Celery, Redis, twilio, PostgreSQL, Bootstrap5",
+    image: "/images/projects/6.png",
     tag: ["All", "Web"],
-    gitUrl: "https://github.com/osstd/oshemy-sportfolio.git",
-    previewUrl: "https://www.oshemy.info",
+    gitUrl: "https://github.com/osstd/The-Birthday-Wisher-.git",
+    previewUrl: "https://the-birthday-wisher-vercel.vercel.app/",
   },
   {
     id: 3,
@@ -53,14 +54,13 @@ const projectsData = [
   },
   {
     id: 6,
-    title: "The Birthday Wisher",
+    title: "Structural Engineering Portfolio Website",
     description:
-      "The wisher sends a simple wish to all your friends on their birthdays. <br> \
-    Technologies used: Flask, Celery, Redis, twilio, PostgreSQL, Bootstrap5",
-    image: "/images/projects/6.png",
+      "I built this multipage web app as a tool to showcase my structural engineering technical skills and projects. <br> Technologies used: Flask, MongoDB, HTML, CSS, JavaScript",
+    image: "/images/projects/2.png",
     tag: ["All", "Web"],
-    gitUrl: "https://github.com/osstd/The-Birthday-Wisher-.git",
-    previewUrl: "https://the-birthday-wisher-vercel.vercel.app/",
+    gitUrl: "https://github.com/osstd/oshemy-sportfolio.git",
+    previewUrl: "https://www.oshemy.info",
   },
   {
     id: 7,
