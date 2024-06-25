@@ -104,7 +104,7 @@ const projectsData = [
     image: "/images/projects/10.png",
     tag: ["All", "Web"],
     gitUrl: "https://github.com/osstd/todo_list_.git",
-    previewUrl: "https://todo-list-ibi1.onrender.com/",
+    previewUrl: "https://the-to-do-list-vercel.vercel.app",
   },
   {
     id: 11,

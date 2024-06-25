@@ -5,20 +5,30 @@ import LinkedinIcon from "../../public/svgs/linkedin-icon.svg";
 import Link from "next/link";
 import Image from "next/image";
 import Spinner from "./Spinner";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const ContactSection = () => {
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleEmail = async (e) => {
-    e.preventDefault();
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
+  const validationSchema = Yup.object().shape({
+    email: Yup.string()
+      .matches(emailRegex, "Invalid email")
+      .required("Email is required"),
+    subject: Yup.string().required("Subject is required"),
+    message: Yup.string().required("Message is required"),
+  });
+
+  const handleSubmit = async (values, { setSubmitting, resetForm }) => {
     setLoading(true);
 
     const data = {
-      email: e.target.email.value,
-      subject: e.target.subject.value,
-      message: e.target.message.value,
+      ...values,
+      captchaToken: values.captcha,
     };
 
     const JSONdata = JSON.stringify(data);
@@ -31,20 +41,39 @@ const ContactSection = () => {
       },
       body: JSONdata,
     };
+
     try {
       const response = await fetch(endpoint, options);
+      const result = await response.json();
 
-      if (response.status === 200) {
-        console.log("Email Sent.");
-        setLoading(false);
+      if (response.ok) {
         setEmailSubmitted(true);
+        resetForm();
       } else {
-        setLoading(false);
-        alert(`Server responded with code: ${response.status}`);
+        switch (response.status) {
+          case 400:
+            if (result.error === "reCAPTCHA verification failed") {
+              alert("reCAPTCHA verification failed. Please try again.");
+            } else {
+              alert(`Bad request: ${result.error}`);
+            }
+            break;
+          case 429:
+            alert("Too many requests. Please try again later.");
+            break;
+          case 500:
+            alert(`Server error: ${result.error}`);
+            break;
+          default:
+            alert(`Unexpected error: ${result.error}`);
+        }
       }
     } catch (error) {
+      console.error("Failed to send email:", error);
+      alert("Failed to send email. Please try again later.");
+    } finally {
       setLoading(false);
-      alert(error);
+      setSubmitting(false);
     }
   };
 
@@ -83,64 +112,89 @@ const ContactSection = () => {
             Email sent successfully!
           </p>
         ) : (
-          <form
-            action=""
-            className="flex flex-col gap-4"
-            onSubmit={handleEmail}
+          <Formik
+            initialValues={{ email: "", subject: "", message: "", captcha: "" }}
+            validationSchema={validationSchema}
+            onSubmit={handleSubmit}
           >
-            <div className="mb-6">
-              <label
-                htmlFor="email"
-                className="text-white block mb-2 text-sm font-medium"
-              >
-                Your email
-              </label>
-              <input
-                name="email"
-                type="email"
-                id="email"
-                required
-                placeholder="a@b.com"
-                className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
-              />
-            </div>
-            <div className="mb-6">
-              <label
-                htmlFor="subject"
-                className="text-white block text-sm mb-2 font-medium"
-              >
-                Subject
-              </label>
-              <input
-                name="subject"
-                type="text"
-                id="subject"
-                required
-                className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
-                placeholder="Just saying hi"
-              />
-            </div>
-            <div className="mb-6">
-              <label
-                htmlFor="message"
-                className="text-white block text-sm mb-2 font-medium"
-              >
-                Message
-              </label>
-              <textarea
-                name="message"
-                id="message"
-                className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
-                placeholder="Let's talk about..."
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-purple-500 hover:bg-purple-600 text-white font-medium py-2.5 px-5 rounded-lg w-full"
-            >
-              Send Message
-            </button>
-          </form>
+            {({ isSubmitting, setFieldValue }) => (
+              <Form className="flex flex-col gap-4">
+                <div className="mb-6">
+                  <label
+                    htmlFor="email"
+                    className="text-white block mb-2 text-sm font-medium"
+                  >
+                    Your email
+                  </label>
+                  <Field
+                    name="email"
+                    type="email"
+                    placeholder="a@b.com"
+                    className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="text-red-500 text-sm mt-1"
+                  />
+                </div>
+                <div className="mb-6">
+                  <label
+                    htmlFor="subject"
+                    className="text-white block text-sm mb-2 font-medium"
+                  >
+                    Subject
+                  </label>
+                  <Field
+                    name="subject"
+                    type="text"
+                    placeholder="Just saying hi"
+                    className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
+                  />
+                  <ErrorMessage
+                    name="subject"
+                    component="div"
+                    className="text-red-500 text-sm mt-1"
+                  />
+                </div>
+                <div className="mb-6">
+                  <label
+                    htmlFor="message"
+                    className="text-white block text-sm mb-2 font-medium"
+                  >
+                    Message
+                  </label>
+                  <Field
+                    name="message"
+                    as="textarea"
+                    placeholder="Let's talk about..."
+                    className="bg-[#18191E] border border-[#33353F] placeholder-[#9CA2A9] text-gray-100 text-sm rounded-lg block w-full p-2.5"
+                  />
+                  <ErrorMessage
+                    name="message"
+                    component="div"
+                    className="text-red-500 text-sm mt-1"
+                  />
+                </div>
+                <ReCAPTCHA
+                  sitekey="6LdrVAEqAAAAAKqZWszHMHHIUk7JwRmDfyxZp57G"
+                  onChange={(value) => setFieldValue("captcha", value)}
+                />
+                <ErrorMessage
+                  name="captcha"
+                  component="div"
+                  className="text-red-500 text-sm mt-1"
+                />
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-purple-500 hover:bg-purple-600 text-white font-medium py-2.5 px-5 rounded-lg w-full"
+                >
+                  Send Message
+                </button>
+              </Form>
+            )}
+          </Formik>
         )}
       </div>
     </section>
