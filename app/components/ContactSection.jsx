@@ -179,6 +179,7 @@ const ContactSection = () => {
                 <ReCAPTCHA
                   sitekey="6LdrVAEqAAAAAKqZWszHMHHIUk7JwRmDfyxZp57G"
                   onChange={(value) => setFieldValue("captcha", value)}
+                  className="z-10"
                 />
                 <ErrorMessage
                   name="captcha"
