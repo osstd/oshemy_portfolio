@@ -90,13 +90,13 @@ const AboutSection = () => {
         <div className="mt-4 md:mt-0 text-left flex flex-col h-full">
           <h2 className="text-4xl font-bold text-white mb-4">About Me</h2>
           <p className="text-base lg:text-lg">
-            I'm a software developer who crafts interactive and responsive web
+            I&apos;m a software developer who crafts interactive and responsive web
             applications. Proficient in Python, JavaScript, and SQL. I leverage
             technologies like React, Node.js, Express, PostgreSQL, MongoDB,
             Redis and Git to deliver impactful solutions. My track record
             includes successfully solving real-world problems through multiple
             project deliveries. I continuously enhance my skills by embracing
-            new challenges. I am always excited to contribute to dynamic
+            new challenges. I&apos;m always excited to contribute to dynamic
             teams in developing innovative and impactful applications.
           </p>
           <div className="flex flex-row flex-wrap justify-start mt-8">
